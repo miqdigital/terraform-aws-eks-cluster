@@ -3,10 +3,10 @@
 ## eks-frankfurt is the folder inside the bucket that you are going to choose to store terraform state files. 
 ## make sure you create it in advance.
 
-terraform {
-  backend "s3" {
-    bucket = "{var.s3_bucket_name}"
-    key    = "eks-frankfurt/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
+#terraform {
+#  backend "s3" {
+#    bucket = "{var.s3_bucket_name}"
+#    key    = "eks-frankfurt/terraform.tfstate"
+#    region = "us-east-1"
+#  }
+#}

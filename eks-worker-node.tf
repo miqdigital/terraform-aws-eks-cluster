@@ -21,11 +21,8 @@ resource "aws_security_group" "frankfurt-node" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-frankfurt-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "owned",
-     "OWNER", "Devops",
-     "PRODUCT", "EKS",
-     "TEAM", "Devops",
+     "Name", "eks-worker-node-sg",
+     "kubernetes.io/cluster/${var.cluster-name}", "owned"
     )
   }"
 }
@@ -79,15 +76,6 @@ locals {
   frankfurt-node-private-userdata = <<USERDATA
 #!/bin/bash -xe
 
-yum install -y curl unzip perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https perl-Digest-SHA.x86_64
-
-curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
-unzip CloudWatchMonitoringScripts-1.2.2.zip
-rm CloudWatchMonitoringScripts-1.2.2.zip
-
-echo '* * * * * /aws-scripts-mon/mon-put-instance-data.pl -mem-util --auto-scaling=only' > /tmp/mycrontab.txt
-crontab -u ec2-user /tmp/mycrontab.txt
-
 sudo /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.frankfurt.endpoint}' --b64-cluster-ca '${aws_eks_cluster.frankfurt.certificate_authority.0.data}' '${var.cluster-name}'
 
 USERDATA
@@ -95,8 +83,8 @@ USERDATA
 
 resource "aws_launch_configuration" "frankfurt-private" {
   iam_instance_profile        = "${aws_iam_instance_profile.frankfurt-node.name}"
-  image_id                    = "ami-0c2709025eb548246" # eu-central-1 version 1.11.8
-  instance_type               = "r5.xlarge"
+  image_id                    = "${var.eks-worker-ami}" ## visit https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+  instance_type               = "${var.worker-node-instance_type}" # use instance variable
   key_name                    = "rancher"
   name_prefix                 = "terraform-eks-frankfurt-private"
   security_groups             = ["${aws_security_group.frankfurt-node.id}"]
@@ -104,7 +92,7 @@ resource "aws_launch_configuration" "frankfurt-private" {
   
   root_block_device {
     delete_on_termination = true
-    volume_size = 200
+    volume_size = 50
     volume_type = "gp2"
   }
 
@@ -116,7 +104,7 @@ resource "aws_launch_configuration" "frankfurt-private" {
 resource "aws_autoscaling_group" "frankfurt-private" {
   desired_capacity     = 1
   launch_configuration = "${aws_launch_configuration.frankfurt-private.id}"
-  max_size             = 5
+  max_size             = 2
   min_size             = 1
   name                 = "terraform-eks-frankfurt-private"
   vpc_zone_identifier  = ["${aws_subnet.frankfurt-private.*.id}"]
@@ -132,42 +120,21 @@ resource "aws_autoscaling_group" "frankfurt-private" {
     value               = "owned"
     propagate_at_launch = true
   }
-  
-  tag {
-    key                 = "k8s.io/cluster-autoscaler/enabled"
-    value               = ""
-    propagate_at_launch = true
-  }
 
-  tag {
-    key                 = "k8s.io/cluster-autoscaler/${var.cluster-name}"
-    value               = ""
-    propagate_at_launch = true
-  }
+## Enable this when you use cluster autoscaler within cluster.
+## https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md
 
-  tag {
-    key                 = "TEAM"
-    value               = "Devops"
-    propagate_at_launch = true
-  }
-  
-  tag {
-    key                 = "OWNER"
-    value               = "Devops"
-    propagate_at_launch = true
-  }
-  
-  tag {
-    key                 = "PRODUCT"
-    value               = "EKS"
-    propagate_at_launch = true
-  }
-  
-  tag {
-    key                 = "ENVIRONMENT"
-    value               = "PROD"
-    propagate_at_launch = true
-  }
+#  tag {
+#    key                 = "k8s.io/cluster-autoscaler/enabled"
+#    value               = ""
+#    propagate_at_launch = true
+#  }
+#
+#  tag {
+#    key                 = "k8s.io/cluster-autoscaler/${var.cluster-name}"
+#    value               = ""
+#    propagate_at_launch = true
+#  }
 
 }
 

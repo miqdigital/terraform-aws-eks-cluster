@@ -52,13 +52,6 @@ resource "aws_route_table" "frankfurt" {
     gateway_id = "${aws_internet_gateway.frankfurt.id}"
   }
 
-## route for vpc peering with prod vpc. ##
-#  route {
-#    cidr_block = "${var.prodvpc-cidr-block}" # variables.tf
-#    vpc_peering_connection_id = "${aws_vpc_peering_connection.eks2prodvpc.id}"
-#  }
-#
-
 }
 
 resource "aws_route_table_association" "frankfurt" {
@@ -83,10 +76,7 @@ resource "aws_subnet" "frankfurt-private" {
     map(
      "Name", "frankfurt-eks-private-subnet",
      "kubernetes.io/cluster/${var.cluster-name}", "shared",
-     "kubernetes.io/role/internal-elb", "1",
-     "TEAM", "Devops",
-     "PRODUCT", "EKS",
-     
+     "kubernetes.io/role/internal-elb", "1", 
     )
   }"
 }
@@ -113,9 +103,6 @@ resource "aws_route_table" "frankfurt-private" {
 
   tags {
         Name = "route table for private subnets",
-        TEAM = "Devops",
-        PRODUCT = "EKS",
-        ENVIRONMENT = "PROD",
     }
 }
 

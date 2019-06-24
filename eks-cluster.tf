@@ -48,10 +48,7 @@ resource "aws_security_group" "frankfurt-cluster" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-frankfurt",
-     "OWNER", "Devops",
-     "PRODUCT", "EKS",
-     "TEAM", "Devops",
+     "Name", "terraform-eks-frankfurt"
     )
   }"
 }
@@ -81,7 +78,7 @@ resource "aws_eks_cluster" "frankfurt" {
   name     = "${var.cluster-name}"
   role_arn = "${aws_iam_role.frankfurt-cluster.arn}"
   version  = "${var.eks_version}"
-  enabled_cluster_log_types = ["api", "audit", "scheduler", "controllerManager"]
+  # enabled_cluster_log_types = ["api", "audit", "scheduler", "controllerManager"]
 
   vpc_config {
     security_group_ids = ["${aws_security_group.frankfurt-cluster.id}"]

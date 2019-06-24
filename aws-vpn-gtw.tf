@@ -4,11 +4,7 @@ resource "aws_vpn_gateway" "vpn_gw" {
 
   tags = "${
     map(
-     "Name", "eks aws vpn gateway frankfurt",
-     "OWNER", "Devops",
-     "TEAM", "Devops",
-     "ENVIRONMENT", "PROD",
-     "PRODUCT", "EKS",
+     "Name", "eks aws vpn gateway frankfurt"
     )
   }"
 }

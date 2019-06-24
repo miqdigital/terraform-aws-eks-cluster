@@ -1,6 +1,15 @@
 variable "cluster-name" {
-  default = "eks-frankfurt"
+  description = "Enter eks cluster name - example like eks-frankfurt"
   type    = "string"
+}
+
+variable "eks-worker-ami" {
+  default = "ami-02d5e7ca7bc498ef9"
+  description = "eks worker node ami for eks cluster 1.13 - https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html"
+}
+
+variable "worker-node-instance_type" {
+  description = "enter worker node instance type"
 }
 
 variable "public_subnets" {
