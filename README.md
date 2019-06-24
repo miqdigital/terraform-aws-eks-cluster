@@ -1,5 +1,5 @@
 # Terraform-aws-eks-cluster
-This repository showcases the terraform template that we use to setup our production ready EKS cluster on AWS. If you are looking to use EKS cluster on AWS then chances are high that you are already be having some sort of infrastructure on AWS and eventually be using VPC to create resources in. 
+This repository showcases the terraform template that will help you to create EKS cluster on AWS. 
 
 We have designed this template considering you have existing VPC `PRODVPC`. This `terraform` template creates new VPC for EKS cluster also lets you peer your existing VPC. This is done as a recommendatation and best practices suited for isolation.
 
