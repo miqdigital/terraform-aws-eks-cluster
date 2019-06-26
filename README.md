@@ -4,7 +4,7 @@ This repository showcases the terraform template that will help you to create EK
 We have designed this template considering you have existing VPC `PRODVPC`. This `terraform` template creates new VPC for EKS cluster also lets you peer your existing VPC. This is done as a recommendatation and best practices suited for isolation.
 
 # AWS EKS Architecture
-![eks-architecture](https://user-images.githubusercontent.com/38158144/60009869-4052b880-9694-11e9-9580-bb76e6730503.png)
+![github_eks](https://user-images.githubusercontent.com/38158144/60167519-e29fa700-9820-11e9-9ecc-86be99973cd7.png)
 
 **Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created by this template. AWS resources that are created by this template listed below.
 
