@@ -1,7 +1,9 @@
-# Terraform-aws-eks-cluster
+# Introduction
 This repository showcases the terraform template that will help you to create EKS cluster on AWS. 
 
 We have designed this template considering you have existing VPC `PRODVPC`. This `terraform` template creates new VPC for EKS cluster also lets you peer your existing VPC. This is done as a recommendatation and best practices suited for isolation.
+
+---
 
 # AWS EKS Architecture
 ![github_eks](https://user-images.githubusercontent.com/38158144/60167519-e29fa700-9820-11e9-9ecc-86be99973cd7.png)
@@ -87,5 +89,17 @@ $ kubectl apply -f aws-auth.yaml
 $ kubectl get no -w
 ```
 **Note:-** You should be seeing nodes joining the cluster within less than minutes.
+
+---
+
+## Contribution
+We are happy to accept the changes that you think can help the utilities grow.
+
+Here are some things to note:
+
+* Raise a ticket for any requirement
+* Discuss the implementation requirement or bug fix with the team members
+* Fork the repository and solve the issue in one single commit
+* Raise a PR regarding the same issue and attach the required documentation or provide a more detailed overview of the changes
 
 
