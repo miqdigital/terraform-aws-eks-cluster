@@ -58,18 +58,6 @@ resource "aws_security_group_rule" "frankfurt-node-ingress-hpa" {
   type                     = "ingress"
 }
 
-# automatically allowing ssh on worker nodes from localwork station MYIP
-resource "aws_security_group_rule" "frankfurt-cluster-ingress-workstation-ssh" {
-  cidr_blocks       = ["${local.workstation-external-cidr}"]
-  description       = "Allow workstation to ssh on worker nodes"
-  from_port         = 22
-  protocol          = "tcp"
-  security_group_id = "${aws_security_group.frankfurt-cluster.id}"
-  to_port           = 22
-  type              = "ingress"
-}
-
-
 #### User data for worker launch
 
 locals {
@@ -197,38 +185,4 @@ dimensions = {
 }
   actions_enabled = true
   alarm_actions = ["${aws_autoscaling_policy.eks-cpu-policy-scaledown-private.arn}"]
-}
-
-
-####
-#### Memory based scaling alarm and scaling policies
-####
-
-## scale up policy for eks node memory usage.
-resource "aws_autoscaling_policy" "eks-mem-policy-private" {
-  name = "eks-mem-policy-private"
-  autoscaling_group_name = "${aws_autoscaling_group.frankfurt-private.name}"
-  adjustment_type = "ChangeInCapacity"
-  scaling_adjustment = "1"
-  cooldown = "300"
-  policy_type = "SimpleScaling"
-}
-
-## Cloudwatch alarm for avg memory utlization
-resource "aws_cloudwatch_metric_alarm" "eks-mem-alarm-private" {
-  alarm_name = "eks-mem-alarm-private"
-  alarm_description = "eks-mem-alarm-private"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods = "5"
-  metric_name = "MemoryUtilization"
-  namespace = "System/Linux"
-  period = "60"
-  statistic = "Average"
-  threshold = "80"
-
-dimensions = {
-  "AutoScalingGroupName" = "${aws_autoscaling_group.frankfurt-private.name}"
-}
-  actions_enabled = true
-  alarm_actions = ["${aws_autoscaling_policy.eks-mem-policy-private.arn}"]
 }

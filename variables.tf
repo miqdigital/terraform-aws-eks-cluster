@@ -8,6 +8,9 @@ variable "eks-worker-ami" {
   description = "eks worker node ami for eks cluster 1.13 - https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html"
 }
 
+# In eks worker node instance type directly affects the number of PODs can run on a Node. Choose wisely.
+# https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
+
 variable "worker-node-instance_type" {
   description = "enter worker node instance type"
 }
@@ -30,21 +33,5 @@ variable "aws_profile" {
 variable "eks_version" {
    default = "1.13"
    description = "kubernetes cluster version provided by AWS EKS"
-
-}
-
-# update name to be peer vpc
-variable "prodvpc-cidr-block" {
-   description = "Enter CIDR range of the VPC you want EKS VPC to peer with"
-
-}
-
-variable "prodvpc_id" {
-   description = "Enter VPC ID that you want EKS VPC to peer with"
-
-}
-
-variable "prodvpc-route-table-id" {
-   description = "Enter routing table ID of the exiting VPC that you want EKS vpc to peer with"
 
 }
