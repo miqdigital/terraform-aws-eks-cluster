@@ -8,11 +8,11 @@ We have designed this template considering you have existing VPC `PRODVPC`. This
 
 **Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created by this template. AWS resources that are created by this template listed below.
 
-- Creates a new VPC with CIDR Block - 10.15.0.0/19 in Frankfurt region.
-- Creates 3 public & 3 private subnets with each size of 4056 IP addresses in each zones (eu-central-1a, eu-central-1b and eu-central-1c)
+- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC)in Frankfurt region. You may want to change it, values are `variables.tf`.
+- Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones (eu-central-1a, eu-central-1b and eu-central-1c)
 - Creates recommened IAM service and EC2 roles required for EKS cluster.
-- Create NAT Gateway.
-- VPC peering connection.
+- Creates Internet & NAT Gateway required for public and private communications.
+- Routing Table and routes for public and private subnets.
 
 
 ### Before you start
