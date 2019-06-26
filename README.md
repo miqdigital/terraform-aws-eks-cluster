@@ -30,8 +30,21 @@ $ cd <FOLDER>
 ```
 
 #### Terraform Plan
+The terraform plan command is used to create an execution plan. Always a good practice to run it before you apply it to see what all resources will be created.
+
+This will ask you to specify `cluster name` and worker node instance type. 
+
 ```
 $ terraform plan
+var.cluster-name
+  Enter eks cluster name - example like eks-frankfurt
+
+  Enter a value: eks-frankfurt
+
+var.worker-node-instance_type
+  enter worker node instance type
+
+  Enter a value: t2.medium
 ```
 
 #### Apply changes
