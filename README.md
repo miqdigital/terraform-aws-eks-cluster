@@ -1,16 +1,14 @@
 # Introduction
 This repository showcases the terraform template that will help you to create EKS cluster on AWS. 
 
-We have designed this template considering you have existing VPC `PRODVPC`. This `terraform` template creates new VPC for EKS cluster also lets you peer your existing VPC. This is done as a recommendatation and best practices suited for isolation.
-
 ---
 
 # AWS EKS Architecture
 ![github_eks](https://user-images.githubusercontent.com/38158144/60167519-e29fa700-9820-11e9-9ecc-86be99973cd7.png)
 
-**Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created by this template. 
+**Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created. 
 
-- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC)in Frankfurt region. You may want to change it, values are `variables.tf`.
+- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC)in Frankfurt region. Feel free to change it, values are `variables.tf`.
 - Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones (eu-central-1a, eu-central-1b and eu-central-1c
 - Creates security groups required for cluster and worker nodes.
 - Creates recommened IAM service and EC2 roles required for EKS cluster.
@@ -49,10 +47,15 @@ var.cluster-name
 
   Enter a value: eks-frankfurt
 
+var.ssh_key_pair
+  Enter SSH keypair name that already exist in the account
+
+  Enter a value: somename
 var.worker-node-instance_type
   enter worker node instance type
 
   Enter a value: t2.medium
+
 ```
 
 #### Apply changes
