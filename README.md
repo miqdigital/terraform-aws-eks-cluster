@@ -19,9 +19,9 @@ This repository showcases the terraform template that will help you to create EK
 ### Before you start
 Before you execute this template make sure following dependencies are met.
 
-- Install terraform
-- Configure AWS CLI (make sure you have admin privileges - IAM admin access)
-- AWS iam authenticator
+- [Install terraform](https://releases.hashicorp.com/terraform/0.11.13/)
+- [Configure AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-linux-al2017.html) - make sure you configure AWS CLI with admin previliges 
+- [AWS iam authenticator](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html) - Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the AWS IAM Authenticator for Kubernetes.
 
 
 ### Setup
@@ -51,6 +51,7 @@ var.ssh_key_pair
   Enter SSH keypair name that already exist in the account
 
   Enter a value: somename
+  
 var.worker-node-instance_type
   enter worker node instance type
 
