@@ -73,7 +73,7 @@ resource "aws_launch_configuration" "frankfurt-private" {
   iam_instance_profile        = "${aws_iam_instance_profile.frankfurt-node.name}"
   image_id                    = "${var.eks-worker-ami}" ## visit https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
   instance_type               = "${var.worker-node-instance_type}" # use instance variable
-  key_name                    = "rancher"
+  key_name                    = "${var.ssh_key_pair}"
   name_prefix                 = "terraform-eks-frankfurt-private"
   security_groups             = ["${aws_security_group.frankfurt-node.id}"]
   user_data_base64            = "${base64encode(local.frankfurt-node-private-userdata)}"

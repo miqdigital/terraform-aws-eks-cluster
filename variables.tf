@@ -15,6 +15,11 @@ variable "worker-node-instance_type" {
   description = "enter worker node instance type"
 }
 
+variable "ssh_key_pair" {
+   description = "Enter SSH keypair name that already exist in the account"
+
+}
+
 variable "public_subnets" {
     type    = "list"
     default = ["10.15.0.0/22", "10.15.4.0/22", "10.15.8.0/22"]
