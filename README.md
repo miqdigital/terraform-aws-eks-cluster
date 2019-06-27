@@ -8,7 +8,7 @@ This repository showcases the terraform template that will help you to create EK
 
 **Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created. 
 
-- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC)in Frankfurt region. Feel free to change it, values are `variables.tf`.
+- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC) in Frankfurt region. Feel free to change it, values are `variables.tf`.
 - Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones (eu-central-1a, eu-central-1b and eu-central-1c
 - Creates security groups required for cluster and worker nodes.
 - Creates recommened IAM service and EC2 roles required for EKS cluster.
@@ -26,8 +26,8 @@ Before you execute this template make sure following dependencies are met.
 
 ### Setup
 ```
-$ git clone <REPO>
-$ cd <FOLDER>
+$ git clone https://github.com/MediaIQ/terraform-aws-eks-cluster.git
+$ cd terraform-aws-eks-cluster
 ```
 
 #### Initialize Terraform
