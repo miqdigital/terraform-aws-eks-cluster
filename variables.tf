@@ -1,5 +1,5 @@
 variable "cluster-name" {
-  description = "Enter eks cluster name - example like eks-frankfurt"
+  description = "Enter eks cluster name - example like eks-demo, eks-dev etc"
   type    = "string"
 }
 
@@ -38,5 +38,10 @@ variable "aws_profile" {
 variable "eks_version" {
    default = "1.13"
    description = "kubernetes cluster version provided by AWS EKS"
+
+}
+
+variable "region" {
+   description = "Enter region you want to create EKS cluster in"
 
 }

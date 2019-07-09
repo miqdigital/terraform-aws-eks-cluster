@@ -7,8 +7,8 @@
 ## updated AMI support for /etc/eks/bootstrap.sh
 ##
 
-resource "aws_iam_role" "frankfurt-node" {
-  name = "terraform-eks-frankfurt-node"
+resource "aws_iam_role" "eks-node" {
+  name = "eks-node"
 
   assume_role_policy = <<POLICY
 {
@@ -30,7 +30,7 @@ POLICY
 ## Kube2IAM - allow worker to assume all roles
 resource "aws_iam_role_policy" "kube2iam_worker_policy" {
   name = "kube2iam_worker_policy"
-  role = "${aws_iam_role.frankfurt-node.id}"
+  role = "${aws_iam_role.eks-node.id}"
 
   policy = <<EOF
 {
@@ -52,7 +52,7 @@ EOF
 ##  Allow worker nodes to send memory metrics to cloudwatch
 resource "aws_iam_role_policy" "mem_scaling_worker_policy" {
   name = "mem_scaling_worker_policy"
-  role = "${aws_iam_role.frankfurt-node.id}"
+  role = "${aws_iam_role.eks-node.id}"
 
   policy = <<EOF
 {
@@ -73,23 +73,23 @@ resource "aws_iam_role_policy" "mem_scaling_worker_policy" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "frankfurt-node-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "eks-node-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = "${aws_iam_role.frankfurt-node.name}"
+  role       = "${aws_iam_role.eks-node.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "frankfurt-node-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "eks-node-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = "${aws_iam_role.frankfurt-node.name}"
+  role       = "${aws_iam_role.eks-node.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "frankfurt-node-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "eks-node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = "${aws_iam_role.frankfurt-node.name}"
+  role       = "${aws_iam_role.eks-node.name}"
 }
 
-resource "aws_iam_instance_profile" "frankfurt-node" {
-  name = "terraform-eks-frankfurt"
-  role = "${aws_iam_role.frankfurt-node.name}"
+resource "aws_iam_instance_profile" "eks-node" {
+  name = "eks-instance-role"
+  role = "${aws_iam_role.eks-node.name}"
 }
 

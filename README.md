@@ -8,8 +8,8 @@ This repository showcases the terraform template that will help you to create EK
 
 **Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created. 
 
-- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC) in Frankfurt region. Feel free to change it, values are `variables.tf`.
-- Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones (eu-central-1a, eu-central-1b and eu-central-1c
+- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC) in a region of your choice. Feel free to change it, values are `variables.tf`.
+- Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones
 - Creates security groups required for cluster and worker nodes.
 - Creates recommened IAM service and EC2 roles required for EKS cluster.
 - Creates Internet & NAT Gateway required for public and private communications.
@@ -42,16 +42,22 @@ This will ask you to specify `cluster name` and worker node instance type.
 
 ```
 $ terraform plan
-var.cluster-name
-  Enter eks cluster name - example like eks-frankfurt
 
-  Enter a value: eks-frankfurt
+var.cluster-name
+  Enter eks cluster name - example like eks-demo, eks-dev etc
+
+  Enter a value: eks-demo
+
+var.region
+  Enter region you want to create EKS cluster in
+
+  Enter a value: us-east-1
 
 var.ssh_key_pair
   Enter SSH keypair name that already exist in the account
 
-  Enter a value: somename
-  
+  Enter a value: eks-keypair
+
 var.worker-node-instance_type
   enter worker node instance type
 
