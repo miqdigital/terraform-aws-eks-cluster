@@ -72,7 +72,7 @@ $ terraform apply
 
 #### Configure kubectl
 ```
-$ aws eks --region <REGION> update-kubeconfig --name <CLUSTER-NAME>
+$ aws eks --region <AWS-REGION> update-kubeconfig --name <CLUSTER-NAME>
 ```
 **Note:-** If AWS CLI and AWS iam authenticator setup correctly, above command should setup kubeconfig file in ~/.kube/config in your system.
 
