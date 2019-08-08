@@ -34,6 +34,7 @@ resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSServicePolicy" {
   role       = "${aws_iam_role.eks-cluster.name}"
 }
 
+## Crate EKS master security group
 resource "aws_security_group" "eks-cluster" {
   name        = "terraform-eks-cluster"
   description = "Cluster communication with worker nodes"
@@ -52,6 +53,11 @@ resource "aws_security_group" "eks-cluster" {
     )
   }"
 }
+
+##
+## Required set of ports inbound / outbound
+## More details - https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html
+##
 
 resource "aws_security_group_rule" "eks-cluster-ingress-node-https" {
   description              = "Allow pods to communicate with the cluster API Server"
@@ -72,6 +78,11 @@ resource "aws_security_group_rule" "eks-cluster-ingress-workstation-https" {
   to_port           = 443
   type              = "ingress"
 }
+
+##
+## create EKS cluster
+## attaching required EKS policies
+##
 
 resource "aws_eks_cluster" "eks-cluster" {
 
