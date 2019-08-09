@@ -1,0 +1,5 @@
+## This will have the configMap data that you would need to add EKS worker nodes. 
+## We have configured this terraform template to display the configMap details as OUTPUT. 
+## Once ``terrform apply`` is successful, you should see configMap details in the end of the output.
+## Create configMap by ``kubectl apply -f aws-auth.yaml``
+
