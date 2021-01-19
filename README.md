@@ -102,13 +102,13 @@ $ kubectl get no -w
 
 ---
 #### EKS cluster upgrade using new asg file in terraform
-Create a new eks-worker-node.tf file with different name and below changes you have to do for EKS cluster upgrade.
-* Change the userdata name to new one.
-* Change the Launch configuration and autoscalling group name to new one.
+Create a new eks-worker-node-v1.tf file with different name and below changes you have to do for EKS cluster upgrade.
+* Change the userdata name to new version(eks-worker-node-upgrade-v2.tf) and should not conflict with old one.
+* Change the Launch configuration and autoscalling group name to new version and should not conflict with old one.
 * Change the ami to which your going upgrade EKS version provided by AWS -- ##eks-worker-ami -- change to new version  
-* And in the new worker node file we have updated how to use taint for dedicated node.
-* Once you apply new tf file the new nodes will spinn up and move the workload to the new one and delete old nodes.
-* Please reffer eks-worker-node-new.tf file to upgrade the EKS cluster for reference.
+* And in the new worker node file(eks-worker-node-upgrade-v2.tf), we have updated how to use taint for dedicated node.
+* Once you apply new tf file the new nodes will spin up and post that move the workload to the new one and delete old nodes.
+* Please reffer eks-worker-node-upgrade-v2.tf file to upgrade the EKS cluster for reference.
 
 
 ## Contribution

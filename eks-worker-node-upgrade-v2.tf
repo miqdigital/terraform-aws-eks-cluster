@@ -8,7 +8,7 @@
 #### User data for worker launch
 
 locals {
-  eks-node-private-userdata-new = <<USERDATA
+  eks-node-private-userdata-v2 = <<USERDATA
 #!/bin/bash -xe
 
 sudo /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.eks-cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.eks-cluster.certificate_authority.0.data}' '${var.cluster-name}' \
@@ -17,18 +17,18 @@ sudo /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.eks-cluster.e
 USERDATA
 }
 
-resource "aws_launch_configuration" "eks-private-lc-new" {
+resource "aws_launch_configuration" "eks-private-lc-v2" {
   iam_instance_profile        = "${aws_iam_instance_profile.eks-node.name}"
   image_id                    = "${var.eks-worker-ami}" ## update to th bew version of ami --visit https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
   instance_type               = "${var.worker-node-instance_type}" # use instance variable
   key_name                    = "${var.ssh_key_pair}"
   name_prefix                 = "eks-private"
   security_groups             = ["${aws_security_group.eks-node.id}"]
-  user_data_base64            = "${base64encode(local.eks-node-private-userdata-new)}"
+  user_data_base64            = "${base64encode(local.eks-node-private-userdata-v2)}"
   
   root_block_device {
     delete_on_termination = true
-    volume_size = 30
+    volume_size = "${var.volume_size}"
     volume_type = "gp2"
   }
 
@@ -37,9 +37,9 @@ resource "aws_launch_configuration" "eks-private-lc-new" {
   }
 }
 
-resource "aws_autoscaling_group" "eks-private-asg-new" {
+resource "aws_autoscaling_group" "eks-private-asg-v2" {
   desired_capacity     = 1
-  launch_configuration = "${aws_launch_configuration.eks-private-lc-new.id}"
+  launch_configuration = "${aws_launch_configuration.eks-private-lc-v2.id}"
   max_size             = 2
   min_size             = 1
   name                 = "eks-private"
@@ -47,7 +47,7 @@ resource "aws_autoscaling_group" "eks-private-asg-new" {
 
   tag {
     key                 = "Name"
-    value               = "eks-worker-private-node-new"
+    value               = "eks-worker-private-node-v2"
     propagate_at_launch = true
   }
 

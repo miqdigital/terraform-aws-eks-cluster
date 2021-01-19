@@ -6,6 +6,9 @@ variable "cluster-name" {
 variable "eks-worker-ami" {
   description = "Please visit here - https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html and select your pre-baked AMI depending on the cluster version and the region you are planning to launch cluster into"
 }
+variable "volume_size" {
+  description = "Enter size of the volume"
+}
 
 # In eks worker node instance type directly affects the number of PODs can run on a Node. Choose wisely.
 # https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
