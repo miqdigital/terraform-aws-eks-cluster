@@ -77,4 +77,4 @@ resource "aws_autoscaling_group" "eks-private-asg-v2" {
 
 # Adding EKS workers scaling policy for scale up/down 
 # Creating Cloudwatch alarms for both scale up/down 
-If require you can use scale up/down policy or else cluster autoscaler will take of scalling the node.
+##If require you can use scale up/down policy or else cluster autoscaler will take of scalling the node.

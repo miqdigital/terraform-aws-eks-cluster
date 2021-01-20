@@ -106,10 +106,36 @@ Create a new eks-worker-node-v1.tf file with different name and below changes yo
 * Change the userdata name to new version(eks-worker-node-upgrade-v2.tf) and should not conflict with old one.
 * Change the Launch configuration and autoscalling group name to new version and should not conflict with old one.
 * Change the ami to which your going upgrade EKS version provided by AWS -- ##eks-worker-ami -- change to new version  
-* And in the new worker node file(eks-worker-node-upgrade-v2.tf), we have updated how to use taint for dedicated node.
-* Once you apply new tf file the new nodes will spin up and post that move the workload to the new one and delete old nodes.
-* Please reffer eks-worker-node-upgrade-v2.tf file to upgrade the EKS cluster for reference.
+* In the new worker node file(eks-worker-node-upgrade-v2.tf), we have updated extra arguments for dedicated node(taint).
+* Once you apply new .tf file and the new nodes will spin up , post that move workloads to the new one and delete old nodes.
+* Please reffer eks-worker-node-upgrade-v2.tf file to upgrade the EKS cluster for reference and below steps to upgrade the worker nodes.
 
+### Once you create new file and apply changes and also change the eks master version in .tf file.
+
+```
+$ terraform apply  
+```
+## Once changes have applied terraform files, it will show new nodes as well as old nodes with different version.
+
+```
+$ kubectl get no
+  NAME                       STATUS   ROLES   AGE   VERSION
+  ip-10-0-87-98.ec2.inetenal  Ready   <none>  21d   v1.12.7
+  ip-10-0-15-24.ec2.inetenal  Ready   <none>  21d   v1.12.7
+  ip-10-0-23-100.ec2.inetenal  Ready   <none>  21d   v1.13.7-eks-c57ff8
+  ip-10-0-14-23.ec2.inetenal  Ready   <none>  21d   v1.13.7-eks-c57ff8
+```
+### The next step is update the kube-system components based on the versions compatibility and cordon the old nodes(should not schedule in the old nodes once you move the workloads)
+```
+$ kubectl cordon nodename (old nodes)
+```
+### Once you started draining the old nodes, the workload will move to the new node.
+
+```
+$ kubectl drain nodename (old nodes)
+
+```
+### Once the darining is completed for all the old nodes ,then delete the old nodes.
 
 ## Contribution
 We are happy to accept the changes that you think can help the utilities grow.
