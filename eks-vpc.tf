@@ -102,7 +102,7 @@ resource "aws_route_table" "eks-private" {
   vpc_id = "${aws_vpc.eks.id}"
 
   tags {
-        Name = "route table for private subnets",
+        Name = "route table for private subnets"
     }
 }
 
