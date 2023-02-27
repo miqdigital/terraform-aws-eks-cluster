@@ -1,6 +1,6 @@
 variable "cluster-name" {
   description = "Enter eks cluster name - example like eks-demo, eks-dev etc"
-  type    = "string"
+  type    = string
 }
 
 variable "eks-worker-ami" {
@@ -23,13 +23,13 @@ variable "ssh_key_pair" {
 }
 
 variable "public_subnets" {
-    type    = "list"
+    type    = list
     description = "you can replace these values as per your choice of subnet range"
     default = ["10.15.0.0/22", "10.15.4.0/22", "10.15.8.0/22"]
 }
 
 variable "private_subnets" {
-    type    = "list"
+    type    = list
     description = "you can replace these values as per your choice of subnet range"
     default = ["10.15.12.0/22", "10.15.16.0/22", "10.15.20.0/22"]
 }
