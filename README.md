@@ -1,17 +1,17 @@
 # Introduction
-This repository showcases the terraform template that will help you to create EKS cluster on AWS. 
+This repository showcases the terraform template that will help you to create EKS cluster on AWS.
 
 ---
 
 # AWS EKS Architecture
 ![github_eks](https://user-images.githubusercontent.com/38158144/60167519-e29fa700-9820-11e9-9ecc-86be99973cd7.png)
 
-**Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created. 
+**Note** - Above architecture doesn't reflect all the components that are created by this template. However, it does give an idea about core infrastructure that will be created.
 
-- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e 8190 IPs in a VPC) in a region of your choice. Feel free to change it, values are `variables.tf`.
+- Creates a new VPC with CIDR Block - 10.15.0.0/19 (i.e. 8190 IPs in a VPC) in a region of your choice. Feel free to change it, values are `variables.tf`.
 - Creates 3 public & 3 private subnets with each size of 1024 IP addresses in each zones
 - Creates security groups required for cluster and worker nodes.
-- Creates recommened IAM service and EC2 roles required for EKS cluster.
+- Creates recommended IAM service and EC2 roles required for EKS cluster.
 - Creates Internet & NAT Gateway required for public and private communications.
 - Routing Table and routes for public and private subnets.
 
@@ -20,9 +20,9 @@ This repository showcases the terraform template that will help you to create EK
 Before you execute this template make sure following dependencies are met.
 
 - [Install terraform](https://releases.hashicorp.com/terraform/0.11.13/)
-- [Configure AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-linux-al2017.html) - make sure you configure AWS CLI with admin previliges 
+- [Configure AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-linux-al2017.html) - make sure you configure AWS CLI with admin privileges
 - [AWS iam authenticator](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html) - Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the AWS IAM Authenticator for Kubernetes.
-
+- Make sure a valid SSH key pair exists under the **~/.ssh/** directory. If it does not exist, create a new SSH Key Pair for authentication by using the command **ssh-keygen -t rsa**
 
 ### Setup
 ```
@@ -38,7 +38,7 @@ $ terraform init
 #### Terraform Plan
 The terraform plan command is used to create an execution plan. Always a good practice to run it before you apply it to see what all resources will be created.
 
-This will ask you to specify `cluster name` and worker node instance type. 
+This will ask you to specify `cluster name` and worker node instance type.
 
 ```
 $ terraform plan
@@ -74,7 +74,7 @@ $ terraform apply
 ```
 $ aws eks --region <AWS-REGION> update-kubeconfig --name <CLUSTER-NAME>
 ```
-**Note:-** If AWS CLI and AWS iam authenticator setup correctly, above command should setup kubeconfig file in ~/.kube/config in your system.
+**Note:-** If AWS CLI and AWS iam authenticator setup correctly, above command should set up kubeconfig file in ~/.kube/config in your system.
 
 #### Verify EKS cluster
 ```
@@ -87,7 +87,7 @@ NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
 ```
 
-Once cluster is verified succesfully, its time to create a configMap to add the worker nodes into the cluster. We have configured `output` with this template which will produce the configMap file content that you paste in *`aws-auth.yaml`*.
+Once cluster is verified successfully, it's time to create a configMap to add the worker nodes into the cluster. We have configured `output` with this template which will produce the configMap file content that you paste in *`aws-auth.yaml`*.
 
 #### Add worker node
 ```
@@ -104,11 +104,11 @@ $ kubectl get no -w
 #### EKS cluster upgrade using new asg file in terraform
 Create a new eks-worker-node-v1.tf file with different name and below changes you have to do for EKS cluster upgrade.
 * Change the userdata name to new version(eks-worker-node-upgrade-v2.tf) and should not conflict with old one.
-* Change the Launch configuration and autoscalling group name to new version and should not conflict with old one.
-* Change the ami to which your going upgrade EKS version provided by AWS -- ##eks-worker-ami -- change to new version  
+* Change the Launch configuration and autoscaling group name to new version and should not conflict with old one.
+* Change the ami to which your going upgrade EKS version provided by AWS -- ##eks-worker-ami -- change to new version
 * In the new worker node file(eks-worker-node-upgrade-v2.tf), we have updated extra arguments for dedicated node(taint).
 * Once you apply new .tf file and the new nodes will spin up , post that move workloads to the new one and delete old nodes.
-* Please reffer eks-worker-node-upgrade-v2.tf file to upgrade the EKS cluster for reference and below steps to upgrade the worker nodes.
+* Please refer eks-worker-node-upgrade-v2.tf file to upgrade the EKS cluster for reference and below steps to upgrade the worker nodes.
 
 ### Once you create new file and apply changes and also change the eks master version in .tf file.
 
@@ -135,7 +135,7 @@ $ kubectl cordon nodename (old nodes)
 $ kubectl drain nodename (old nodes)
 
 ```
-### Once the darining is completed for all the old nodes ,then delete the old nodes.
+### Once the draining is completed for all the old nodes ,then delete the old nodes.
 
 ## Contribution
 We are happy to accept the changes that you think can help the utilities grow.
